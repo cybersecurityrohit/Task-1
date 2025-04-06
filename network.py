@@ -4,21 +4,19 @@ from datetime import datetime
 import socket
 import os
 
-# === Set the output file path to your desired location ===
-output_file_path = "C:/python/Task1/captured_packets.txt"  # Use forward slashes or raw string
 
-# === Open the output file in append mode ===
+output_file_path = "C:/python/Task1/captured_packets.txt" 
+
+
 output_file = open(output_file_path, "a")
-packet_counter = 0  # Initialize packet counter
+packet_counter = 0  
 
-# === Function to get hostname from IP ===
 def get_hostname(ip):
     try:
         return socket.gethostbyaddr(ip)[0]
     except:
         return "Unknown"
 
-# === Packet processing callback function ===
 def packet_callback(packet):
     global packet_counter
     packet_counter += 1
@@ -61,7 +59,6 @@ def packet_callback(packet):
             print(udp_info)
             output_file.write(udp_info)
 
-# === Start sniffing ===
 print("[*] Starting Scapy-based Network Sniffer... Press Ctrl+C to stop.")
 try:
     sniff(prn=packet_callback, store=0)
@@ -71,7 +68,7 @@ finally:
     output_file.close()
     print(f"[*] Output saved to {output_file_path}")
 
-    # Check if the file exists
+
     if os.path.isfile(output_file_path):
         print(f"[*] Log file successfully created: {os.path.abspath(output_file_path)}")
     else:
